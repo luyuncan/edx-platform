@@ -1,6 +1,6 @@
-require(["domReady", "jquery", "underscore", "gettext", "js/views/feedback_notification", "js/views/feedback_prompt",
-         "jquery.ui", "jquery.timepicker", "jquery.leanModal", "jquery.form", "jquery.smoothScroll"],
-    function(domReady, $, _, gettext, NotificationView, PromptView) {
+require(["jquery", "underscore", "gettext", "js/views/feedback_notification", "js/views/feedback_prompt",
+         "jquery.ui", "jquery.timepicker", "jquery.leanModal", "jquery.form", "jquery.smoothScroll", "domReady!"],
+    function($, _, gettext, NotificationView, PromptView) {
 
 var $body;
 var $modal;
