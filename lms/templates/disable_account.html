@@ -21,6 +21,22 @@
 <br>
 <br>
 <p id="account-change-status"></p>
+<h2>Students whose accounts have been disabled</h2>
+<p>(reload your page to refresh)</p>
+<table id="account-table" border='1'>
+	<tr>
+		% for header in headers:
+		<th>${header}</th>
+		% endfor
+	</tr>
+	% for row in rows:
+	<tr>
+		% for cell in row:
+		<td>${cell}</td>
+		% endfor
+	</tr>
+	% endfor
+</table>
 
 <script type="text/javascript">
 	$(function() {

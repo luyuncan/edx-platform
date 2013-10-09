@@ -634,8 +634,23 @@ def logout_user(request):
 def disable_account(request):
     if not request.user.is_staff:
         raise Http404
+    disabled_account_table = all_disabled_accounts = UserStanding.objects.filter(
+        account_status=u'account_disabled'
+    )
 
-    return render_to_response("disable_account.html")
+    ids = [account.user.id for account in all_disabled_accounts]
+
+    all_disabled_users = User.objects.filter(id__in=ids)
+    headers = ['username', 'account_changed_by']
+    rows = []
+    for user in all_disabled_users:
+        row = [user.username, user.standing.all()[0].changed_by]
+        rows.append(row)
+
+
+    context = {'headers': headers, 'rows': rows}
+
+    return render_to_response("disable_account.html", context)
 
 @require_POST
 @login_required
@@ -646,12 +661,12 @@ def disable_account_ajax(request):
     username = request.POST.get('username')
     context = {}
     if username is None or username.strip() == '':
-        context['message'] = _('Please enter a username')
+        context['message'] = _u('Please enter a username')
         return JsonResponse(context)
 
     account_action = request.POST.get('account_action')
     if account_action is None:
-        context['message'] = _('Please choose an option')
+        context['message'] = _u('Please choose an option')
         return JsonResponse(context)
 
     username = username.strip()
@@ -675,12 +690,15 @@ def disable_account_ajax(request):
         user_account.changed_by = request.user
         user_account.standing_last_changed_at = datetime.datetime.now(UTC)
         user_account.save()
-    return JsonResponse(context)
 
+    # add table_row of all accounts to context
+    context['row'] = [username, user_account.changed_by.username]
+
+    return JsonResponse(context)
 
 def _remove_user_sessions(user):
     """
-    finds all of one user's sessions and erases them
+    finds all of a user's sessions and deletes them from the database
     """
     # hackish and expensive, but as far as I can tell the only way
     # immediately to lock out a user in django
