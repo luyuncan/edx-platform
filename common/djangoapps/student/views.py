@@ -673,7 +673,7 @@ def disable_account_ajax(request):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        context['message'] = _("User with username {} does not exist").format(username)
+        context['message'] = _u("User with username {} does not exist").format(username)
     else:
         user_account, _ = UserStanding.objects.get_or_create(
             user=user, defaults={'changed_by': request.user},
@@ -682,8 +682,8 @@ def disable_account_ajax(request):
             user_account.account_status = u'account_disabled'
             context['message'] = _u("Successfully disabled {}'s account").format(username)
 
-            # _remove_user_sessions(user)
-            # context['message'] += _("Successfully deleted {}'s sessions").format(username)
+            _remove_user_sessions(user)
+            context['message'] += _u("Successfully deleted {}'s sessions").format(username)
         elif account_action == 'reenable':
             user_account.account_status = u'account_enabled'
             context['message'] = _u("Successfully reenabled {}'s account").format(username)
