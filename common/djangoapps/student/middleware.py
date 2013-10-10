@@ -1,4 +1,6 @@
 from django.http import HttpResponseForbidden
+from django.utils.translation import ugettext as _
+from django.conf import settings
 from student.models import UserStanding
 
 class UserStandingMiddleware(object):
@@ -17,4 +19,16 @@ class UserStandingMiddleware(object):
 		else:
 			if user_account.account_status == u'account_disabled':
 				request.session.flush()
-				return HttpResponseForbidden()
+				msg = _(
+                            'Your account has been disabled. If you believe '
+                            'this was done in error, please contact us at '
+                            '{link_start}{support_email}{link_end}'
+                        ).format(
+                            support_email = settings.CONTACT_EMAIL,
+                            link_start = u'<a href="mailto:{address}?subject={subject_line}">'.format(
+                                address=settings.CONTACT_EMAIL,
+                                subject_line=_('Disabled Account'),
+                            ),
+                            link_end = u'</a>'
+                        )
+				return HttpResponseForbidden(msg)
