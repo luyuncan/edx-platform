@@ -16,7 +16,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset_confirm
-from django.contrib.sessions.models import Session
+# from django.contrib.sessions.models import Session
 from django.core.cache import cache
 from django.core.context_processors import csrf
 from django.core.mail import send_mail
@@ -682,8 +682,8 @@ def disable_account_ajax(request):
             user_account.account_status = u'account_disabled'
             context['message'] = _u("Successfully disabled {}'s account").format(username)
 
-            _remove_user_sessions(user)
-            context['message'] += _u("Successfully deleted {}'s sessions").format(username)
+            # _remove_user_sessions(user)
+            # context['message'] += _u("Successfully deleted {}'s sessions").format(username)
         elif account_action == 'reenable':
             user_account.account_status = u'account_enabled'
             context['message'] = _u("Successfully reenabled {}'s account").format(username)
