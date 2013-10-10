@@ -1,6 +1,6 @@
 from student.tests.factories import UserFactory, UserStandingFactory
 from student.models import UserStanding
-from django.test import TestCase, TransactionTestCase
+from django.test import TestCase
 
 
 class UserStandingTest(TestCase):
