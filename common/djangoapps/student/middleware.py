@@ -1,5 +1,4 @@
-from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
+from django.http import HttpResponseForbidden
 from student.models import UserStanding
 
 class UserStandingMiddleware(object):
@@ -18,4 +17,4 @@ class UserStandingMiddleware(object):
 		else:
 			if user_account.account_status == u'account_disabled':
 				request.session.flush()
-				return redirect(reverse('signin_user'))
+				return HttpResponseForbidden()
