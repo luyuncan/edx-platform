@@ -8,6 +8,6 @@ class UserStandingMiddleware(object):
 	"""
 	def process_request(self, request):
 		student = request.user
-		if student.standing.account_status = u'account_disabled':
+		if student.standing.account_status == u'account_disabled':
 			request.session.flush()
 			return redirect(reverse('login'))
