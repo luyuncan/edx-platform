@@ -17,4 +17,3 @@ Feature: Bulk Email
     | staff         |  myself        |
     | staff         |  course staff  |
     | staff         |  students, staff, and instructors  |
-    
