@@ -118,6 +118,8 @@ function (
         youtubeXhr = null;
     };
 
+    // Invoke the mock Video constructor so that the elements stored within
+    // it can be processed by the real `window.Video` constructor.
     oldVideo(null, true);
 });
 
